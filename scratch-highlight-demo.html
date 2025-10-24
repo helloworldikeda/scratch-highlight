@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/dark.min.css">
+        <script type="module">
+        import hljs from 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/es/highlight.min.js';
+        //  and it's easy to individually load additional languages
+        import scratch from './scratch-highlighter.js';
+        hljs.registerLanguage('scratch', scratch);
+</script>
+
+  <meta charset="UTF-8" />
+  <title>Hello, Scratch!</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Demo highlighting Scratch code" />
+  
+</head>
+<body>
+    <pre>
+        <code class="language-scratch">
+        repeat (5) times // 5 rows
+          repeat (5) times // 5 columns
+            create clone of [myself v]
+            change x by (62)
+          end
+          set x to (-190)
+          change y by (-62)
+        end
+        </code>
+    </pre>
+</body>
+</html>
+
+
