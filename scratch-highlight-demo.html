@@ -1,22 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/dark.min.css">
-        <script type="module">
-        import hljs from 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/es/highlight.min.js';
-        //  and it's easy to individually load additional languages
-        import scratch from './scratch-highlighter.js';
-        hljs.registerLanguage('scratch', scratch);
-</script>
+    <head>
+        <link rel="stylesheet" href="dracula.css">
 
-  <meta charset="UTF-8" />
-  <title>Hello, Scratch!</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="Demo highlighting Scratch code" />
-  
-</head>
-<body>
-    <pre>
+        <script src="highlight.min.js"></script>
+        <meta charset="UTF-8"/>
+        <title>Hello, Scratch!</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1"/>
+        <meta name="description" content="Demo highlighting Scratch code"/>
+
+    </head>
+    <body>
+        <pre>
         <code class="language-scratch">
         repeat (5) times // 5 rows
           repeat (5) times // 5 columns
@@ -28,7 +23,91 @@
         end
         </code>
     </pre>
-</body>
+        <script>
+            function scratchHighlighter(hljs) {
+                const SINGLE_WORD_KEYWORDS = [
+                    'repeat',
+                    'forever',
+                    'if',
+                    'else',
+                    'wait',
+                    'until',
+                    'while',
+                    'stop',
+                    'end',
+                    'then',
+                    'times',
+                    'seconds',
+                    'when',
+                    'broadcast'
+                ];
+
+                const SINGLE_WORD_BUILT_INS = [
+                    'move',
+                    'turn',
+                    'glide',
+                    'say',
+                    'think',
+                    'show',
+                    'hide',
+                    'change',
+                    'set',
+                    'add',
+                    'delete',
+                    'insert',
+                    'item',
+                    'myself',
+                    'touching',
+                    'ask',
+                    'answer',
+                    'timer',
+                    'loudness'
+                ];
+
+                return {
+                    name: 'Scratch',
+                    case_insensitive: true,
+                    keywords: {
+                        keyword: SINGLE_WORD_KEYWORDS,
+                        built_in: SINGLE_WORD_BUILT_INS,
+                        literal: ['true', 'false']
+                    },
+                    contains: [
+                        hljs.COMMENT('//', '$'),
+                        { // Multi-word block names
+                            className: 'built_in',
+                            begin: '\\b(go to|point in direction|point towards|change x by|set x to|change y by|set y to|if on edge bounce|set rotation style|switch costume to|next costume|switch backdrop to|next backdrop|change size by|set size to|clear graphic effects|go to front|go back|when flag clicked|when key pressed|when this sprite clicked|when backdrop switches to|when I receive|create clone of|delete this clone|show variable|hide variable|replace item|length of|show list|hide list|distance to|key pressed|mouse down|mouse x|mouse y|reset timer)\\b',
+                            relevance: 10
+                        },
+                        {
+                            className: 'number',
+                            begin: '\\b-?\\d+(\\.\\d+)?\\b',
+                            relevance: 0
+                        },
+                        {
+                            className: 'string',
+                            begin: '"',
+                            end: '"',
+                            contains: [hljs.BACKSLASH_ESCAPE]
+                        }, {
+                            className: 'symbol',
+                            begin: '\\[',
+                            end: '\\s*v?\\]',
+                            relevance: 10
+                        }, {
+                            className: 'params',
+                            begin: '\\(',
+                            end: '\\)',
+                            contains: [
+                                'self', hljs.COMMENT('//', '$')
+                            ]
+                        }
+                    ]
+                };
+            }
+
+            hljs.registerLanguage('scratch', scratchHighlighter);
+            hljs.highlightAll();
+        </script>
+    </body>
 </html>
-
-
